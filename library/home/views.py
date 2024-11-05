@@ -36,13 +36,36 @@ def add_author(request):
         auth=Author(name=Author_name,email=Email)
         auth.save()
     return redirect('/index')    
+def update(request, id):
+  if request.method == 'POST':
+    book_name = request.POST.get('book_name')
+    ISBN = request.POST.get('ISBN')
+    Publication_date = request.POST.get('Publication_date')
 
-def create_book(request):
+    try:
+      book = Book.objects.get(pk=id)
+      book.title = book_name
+      book.isbn = ISBN
+      book.publication_date = Publication_date
+      book.full_clean()  
+      book.save()
+      return redirect('/index') 
+    except (Book.DoesNotExist, ValidationError) as e:
+      context = {'errors': e}
+      return redirect(request, '/index', context)
+  else:
+    book = Book.objects.get(pk=id)
+    context = {'book': book}
+    return redirect(request, '/index', context)
+  
+from django.shortcuts import render, redirect
+
+def delete_book(request, id):
     if request.method == 'POST':
-        form = BookForm(request.POST)
-        if form.is_valid(): 
-            form.save()
-            return redirect('book_list')
+        book = Book.objects.get(pk=id)
+        book.delete()
+        return redirect('/index')
     else:
-        form = BookForm()
-    return render(request, 'books/create_book.html', {'form': form})
+        book = Book.objects.get(pk=id)
+        context = {'book': book}
+        return redirect(request, '/index', context)

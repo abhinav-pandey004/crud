@@ -56,7 +56,7 @@
 						<td>{{i.isbn}}</td>
                         <td>{{i.author}}</td>
                         <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
@@ -141,31 +141,29 @@
 		</div>
 	</div>
 	<!-- Edit Modal HTML -->
-	<!-- <div id="editEmployeeModal" class="modal fade">
+	{% for i in bk %}
+	<div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="/add_author">
+				<form action="/update/{{i.id}}" method="post">
+					{% csrf_token %}
 					<div class="modal-header">						
-						<h4 class="modal-title">Edit Employee</h4>
+						<h4 class="modal-title">Edit Book</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
-							<label>Name</label>
-							<input type="text" class="form-control" required>
+							<label>Book Name</label>
+							<input value ="{{i.title}}"type="text" class="form-control" required name="book_name">
 						</div>
 						<div class="form-group">
-							<label>Email</label>
-							<input type="email" class="form-control" required>
+							<label>Date</label>
+							<input value="{{i.publication_date}}" type="date" class="form-control" required name="Publication_date">
 						</div>
 						<div class="form-group">
-							<label>Address</label>
-							<textarea class="form-control" required></textarea>
-						</div>
-						<div class="form-group">
-							<label>Phone</label>
-							<input type="text" class="form-control" required>
-						</div>					
+							<label>ISBN</label>
+							<textarea class="form-control" required name="ISBN">{{i.isbn}}</textarea>
+						</div>				
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -174,14 +172,17 @@
 				</form>
 			</div>
 		</div>
-	</div> -->
+	</div>
+	{% endfor %}
 	<!-- Delete Modal HTML -->
-	<!-- <div id="deleteEmployeeModal" class="modal fade">
+	{% for i in bk %}
+	<div id="deleteEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form action="/delete_book/{{i.id}}" method="post">
+					{% csrf_token %}
 					<div class="modal-header">						
-						<h4 class="modal-title">Delete Employee</h4>
+						<h4 class="modal-title">Delete {{i.title}}</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
@@ -195,7 +196,8 @@
 				</form>
 			</div>
 		</div>
-	</div> -->
+	</div>
+	{% endfor %}
 </body>
 <script>
     $(document).ready(function(){
