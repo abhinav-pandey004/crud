@@ -11,12 +11,13 @@ def index(request):
 def add_book(request):
   if request.method == 'POST':
     book_name = request.POST.get('book_name')
+    author_id=request.POST.get('author_id')
     author_name = request.POST.get('author_name')
     ISBN = request.POST.get('ISBN')
     Publication_date = request.POST.get('Publication_date')
 
     try:
-      author = Author.objects.get(name=author_name)
+      author = Author.objects.get(pk=author_id)
       book = Book(title=book_name, author=author, isbn=ISBN, publication_date=Publication_date)
       book.full_clean()
       book.save()
@@ -33,7 +34,8 @@ def add_author(request):
     if request.method=='POST':
         Author_name=request.POST.get('Author_name')
         Email=request.POST.get('Email')
-        auth=Author(name=Author_name,email=Email)
+        author_id=request.POST.get('author_id')
+        auth=Author(name=Author_name,email=Email,author_id=author_id)
         auth.save()
     return redirect('/index')    
 def update(request, id):
