@@ -8,7 +8,7 @@ def index(request):
         'bk':bk,
     }
     return render(request,'index.html',context)
-def add_book(request):
+def add_book(request,author_id):
   if request.method == 'POST':
     book_name = request.POST.get('book_name')
     author_id=request.POST.get('author_id')
@@ -17,6 +17,7 @@ def add_book(request):
     Publication_date = request.POST.get('Publication_date')
 
     try:
+      print(f"Author_id={author_id}")
       author = Author.objects.get(pk=author_id)
       book = Book(title=book_name, author=author, isbn=ISBN, publication_date=Publication_date)
       book.full_clean()
