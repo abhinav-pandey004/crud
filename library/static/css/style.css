@@ -217,3 +217,16 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }
+.MYBtu{
+    margin-left: 75vw;
+    scale: 1.1;
+}
+.login{
+    color: white;
+    background-color: #5cb85c;
+    border-radius: 4px;
+    outline: none;
+    border: 0px;
+    padding: 5px 18px 5px 18px;
+    margin: 10px;
+}
