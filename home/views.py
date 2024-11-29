@@ -12,7 +12,6 @@ def index(request):
         'bk':bk,
         'author':author
     }
-
     return render(request,'index.html',context)
 def add_book(request):
   if request.method == 'POST':
